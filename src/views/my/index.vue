@@ -6,11 +6,11 @@
         <div class="left">
           <van-image
             class="avatar"
-            src="userInfo.photo"
+            :src="userInfo.photo"
             round
             fit="cover"
           />
-          <span class="name">{{userInfo.name}}</span>
+          <span class="name">{{ userInfo.name }}</span>
         </div>
         <div class="right">
           <van-button size="mini" round>编辑资料</van-button>
@@ -18,32 +18,34 @@
       </div>
       <div class="data-stats">
         <div class="data-item">
-          <span class="count">{{userInfo.art_count}}</span>
+          <span class="count">{{ userInfo.art_count }}</span>
           <span class="text">头条</span>
         </div>
         <div class="data-item">
-          <span class="count">{{userInfo.follow_count}}</span>
+          <span class="count">{{ userInfo.follow_count }}</span>
           <span class="text">关注</span>
         </div>
         <div class="data-item">
-          <span class="count">{{userInfo.fans_count}}</span>
+          <span class="count">{{ userInfo.fans_count }}</span>
           <span class="text">粉丝</span>
         </div>
         <div class="data-item">
-          <span class="count">{{userInfo.like_count}}</span>
+          <span class="count">{{ userInfo.like_count }}</span>
           <span class="text">获赞</span>
         </div>
       </div>
     </div>
     <!-- /已登录头部 -->
+
     <!-- 未登录头部 -->
     <div v-else class="header not-login">
       <div class="login-btn" @click="$router.push('/login')">
-        <img class="mobile-img" src="~@/assets/mobile.png" alt="" />
+        <img class="mobile-img" src="~@/assets/mobile.png" alt="">
         <span class="text">登录 / 注册</span>
       </div>
     </div>
     <!-- /未登录头部 -->
+
     <!-- 宫格导航 -->
     <van-grid class="grid-nav mb-9" :column-num="2" clickable>
       <van-grid-item class="grid-item">
@@ -77,42 +79,39 @@ export default {
   name: 'MyIndex',
   components: {},
   props: {},
-  data() {
+  data () {
     return {
-      userInfo: {}
+      userInfo: {} // 用户信息
     }
   },
   computed: {
     ...mapState(['user'])
   },
   watch: {},
-  created() {
+  created () {
     // 如果用户登录了，则请求加载用户信息数据
     if (this.user) {
       this.loadUserInfo()
     }
   },
-  mounted() {},
+  mounted () {},
   methods: {
-    onLogout() {
+    onLogout () {
       // 退出提示
-      // 在组件中需要使用this.$dialog来调用弹框组件
-      this.$dialog
-        .confirm({
-          title: '确认要退出吗？'
-        })
-        .then(() => {
-          // on confirm
-          this.$store.commit('setUser', null)
-        })
-        .catch(() => {
-          // on cancel
-          console.log('取消执行这里')
-        })
-      // 确认退出： 清除登录状态（容器中的user + 本地存储中的user）
+      // 在组件中需要使用 this.$dialog 来调用弹框组件
+      this.$dialog.confirm({
+        title: '确认退出吗？'
+      }).then(() => {
+        // on confirm
+        // 确认退出：清除登录状态（容器中的 user + 本地存储中的 user）
+        this.$store.commit('setUser', null)
+      }).catch(() => {
+        // on cancel
+        console.log('取消执行这里')
+      })
     },
 
-    async loadUserInfo() {
+    async loadUserInfo () {
       try {
         const { data } = await getUserInfo()
         this.userInfo = data.data
@@ -124,11 +123,11 @@ export default {
 }
 </script>
 
-<style scope lang="less">
+<style scoped lang="less">
 .my-container {
   .header {
     height: 361px;
-    background: url('~@/assets/banner.png');
+    background: url("~@/assets/banner.png");
     background-size: cover;
   }
 
@@ -156,7 +155,6 @@ export default {
   .user-info {
     .base-info {
       height: 231px;
-      // background-color: pink;
       padding: 76px 32px 23px;
       box-sizing: border-box;
       display: flex;
@@ -213,6 +211,15 @@ export default {
         font-size: 28px;
       }
     }
+  }
+
+  .logout-cell {
+    text-align: center;
+    color: #d86262;
+  }
+
+  .mb-9 {
+    margin-bottom: 9px;
   }
 }
 </style>
